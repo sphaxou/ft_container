@@ -1,14 +1,5 @@
 vector
 
-Element Access
-
-at
-Access element (public member function )
-front
-Access first element (public member function )
-back
-Access last element (public member function )
-
 Modifiers
 
 assign

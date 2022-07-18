@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 22:17:09 by vgallois          #+#    #+#             */
-/*   Updated: 2022/07/18 18:17:34 by vgallois         ###   ########.fr       */
+/*   Updated: 2022/07/18 18:53:51 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,40 @@ class vector{
 		reference operator[] (size_type n)
 		{
 			return this->_data[n];
+		}
+
+		reference at (size_type n)
+		{
+			if (n >= this->_size)
+		 		throw std::out_of_range("index out of range");
+		 	return this->_data[n];
+		}
+
+		const_reference operator[] (size_type n) const
+		{
+			if (n >= this->_size)
+		 		throw std::out_of_range("index out of range");
+		 	return this->_data[n];
+		}
+
+		reference front()
+		{
+			return this->_data[0];
+		}
+
+		const_reference front() const
+		{
+			return this->_data[0];
+		}
+
+		reference back()
+		{
+			return this->_data[this->_size - 1];
+		}
+
+		const_reference back() const
+		{
+			return this->_data[this->_size - 1];
 		}
 
 
