@@ -1,0 +1,39 @@
+vector
+
+Element Access
+
+at
+Access element (public member function )
+front
+Access first element (public member function )
+back
+Access last element (public member function )
+
+Modifiers
+
+assign
+Assign vector content (public member function )
+push_back
+Add element at the end (public member function )
+pop_back
+Delete last element (public member function )
+insert
+Insert elements (public member function )
+erase
+Erase elements (public member function )
+swap
+Swap content (public member function )
+clear
+Clear content (public member function )
+
+Allocator:
+get_allocator
+Get allocator (public member function )
+
+Non-member function overloads
+relational operators	Relational operators for vector (function template )
+swap	Exchange contents of vectors (function template )
+
+Map
+
+Test
