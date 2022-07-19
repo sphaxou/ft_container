@@ -2,14 +2,6 @@ vector
 
 Modifiers
 
-assign
-Assign vector content (public member function )
-push_back
-Add element at the end (public member function )
-pop_back
-Delete last element (public member function )
-insert
-Insert elements (public member function )
 erase
 Erase elements (public member function )
 swap

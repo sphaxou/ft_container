@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 22:17:09 by vgallois          #+#    #+#             */
-/*   Updated: 2022/07/18 18:53:51 by vgallois         ###   ########.fr       */
+/*   Updated: 2022/07/19 17:36:39 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,11 +232,114 @@ class vector{
 			return this->_data[this->_size - 1];
 		}
 
+//		Modifiers
+
+		template <class InputIterator>
+		void assign (InputIterator first, InputIterator last)
+		{
+			this->clear();
+			size_t new_size = last - first;
+			if (new_size > _capacity)
+			{
+				this->alloc.deallocate(this->_data, this->_capacity);
+				this->_data = this->_alloc.allocate(new_size);
+				this->_capacity = new_size;
+			}
+			for (; first != last; first++)
+				this->push_back(*first);
+			return ;
+		}
+
+		void assign (size_type n, const value_type& val)
+		{
+			this->clear();
+			if (n > _capacity)
+			{
+				this->alloc.deallocate(this->_data, this->_capacity);
+				this->_data = this->_alloc.allocate(n);
+				this->_capacity = n;
+			}
+			for (size_type i = 0; i < n; i++)
+				this->_alloc.construct(this->_data + i, val);
+			this->_size = n;
+			return ;
+		}
+
+		
+
+		void push_back (const value_type& val)
+		{
+			if (this->_size == this->_capacity)
+			{
+				this->reserve(this->_capacity * 2);
+			}
+			this->_alloc.construct(this->_data + this->_size, val);
+			this->_size++;
+			return ;
+		}
+
+		void pop_back()
+		{
+			if (this->_size == 0)
+				throw std::out_of_range("pop_back on empty vector");
+			this->_alloc.destroy(this->_data + this->_size - 1);
+			this->_size--;
+			return ;
+		}
+
+		iterator insert (iterator position, const value_type& val)
+		{
+			if (this->_size == this->_capacity)
+			{
+				this->reserve(this->_capacity * 2);
+			}
+			iterator it = this->_data + position;
+			for (size_type i = this->_size; i > it - this->_data; i--)
+				this->_alloc.construct(this->_data + i, this->_data[i - 1]);
+			this->_alloc.construct(this->_data + it - this->_data, val);
+			this->_size++;
+			return it;
+		}
+
+		void insert (iterator position, size_type n, const value_type& val)
+		{
+			if (this->_size + n > this->_capacity)
+			{
+				this->reserve(this->_capacity * 2 > this->size + n ? this->_capacity * 2 : this->size + n);
+			}
+			iterator it = this->_data + position;
+			for (size_type i = this->_size; i > it - this->_data; i--)
+				this->_alloc.construct(this->_data + i + n, this->_data[i - 1]);
+			for (size_type i = 0; i < n; i++)
+				this->_alloc.construct(this->_data + it - this->_data + i, val);
+			this->_size += n;
+			return ;
+		}//need to check something
+
+		template <class InputIterator>
+    	void insert (iterator position, InputIterator first, InputIterator last)
+		{
+			if (this->_size + last - first > this->_capacity)
+			{
+				this->reserve(this->_capacity * 2 > this->_size + (lst - first) ? this->_capacity * 2 : this->_size + (last - first));
+			}
+			iterator it = this->_data + position;
+			for (size_type i = this->_size; i > it - this->_data; i--)
+				this->_alloc.construct(this->_data + i + last - first, this->_data[i - 1]);
+			for (; first != last; first++)
+				this->_alloc.construct(this->_data + it - this->_data + last - first, *first);
+			this->_size += last - first;
+			return ;
+		}
 
 		private:
 		
 		void create_data(size_type size, const value_type &val)
 		{
+			if (this->_data)
+			{
+				this->destroy_data();
+			}
 			this->_data = this->_alloc.allocate(size);
 			this->_size = size;
 			this->_capacity = size;
@@ -247,6 +350,10 @@ class vector{
 
 		void create_data(InputIterator first, InputIterator last)
 		{
+			if (this->data)
+			{
+				this->destroy_data();
+			}
 			this->_data = this->_alloc.allocate(last - first);
 			this->_size = last - first;
 			this->_capacity = this->_size;
