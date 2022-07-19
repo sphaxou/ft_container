@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 22:17:09 by vgallois          #+#    #+#             */
-/*   Updated: 2022/07/19 17:36:39 by vgallois         ###   ########.fr       */
+/*   Updated: 2022/07/19 20:34:47 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,7 +314,7 @@ class vector{
 				this->_alloc.construct(this->_data + it - this->_data + i, val);
 			this->_size += n;
 			return ;
-		}//need to check something
+		}//need to check something (this->_data + i + n)
 
 		template <class InputIterator>
     	void insert (iterator position, InputIterator first, InputIterator last)
@@ -330,6 +330,27 @@ class vector{
 				this->_alloc.construct(this->_data + it - this->_data + last - first, *first);
 			this->_size += last - first;
 			return ;
+		}
+
+		iterator erase (iterator first, iterator last)
+		{
+			bool test = true;
+			if (first != this->begin())
+			{
+				test = false;
+				iterator it = first - 1;
+			}
+			for (size_type i = first; i < last; i++)
+				this->_alloc.destroy(this->_data + i);
+			for (size_type i = first; i < last; i++)
+				this->_alloc.construct(this->_data + i, this->_data[i + last - first]);
+			this->_size -= last - first;
+			return (test ? this->begin() : it + 1);
+		}//recheck la valeur de retour
+
+		iterator erase (iterator position)
+		{
+			return this->erase(position, position + 1);
 		}
 
 		private:
