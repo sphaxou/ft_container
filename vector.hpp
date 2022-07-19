@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 22:17:09 by vgallois          #+#    #+#             */
-/*   Updated: 2022/07/19 20:34:47 by vgallois         ###   ########.fr       */
+/*   Updated: 2022/07/19 21:34:06 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,6 +351,15 @@ class vector{
 		iterator erase (iterator position)
 		{
 			return this->erase(position, position + 1);
+		}
+
+		void swap(vector &x)
+		{
+			std::swap(this->_data, x._data);
+			std::swap(this->_size, x._size);
+			std::swap(this->_capacity, x._capacity);
+			std::swap(this->_alloc, x._alloc);
+			return ;
 		}
 
 		private:
