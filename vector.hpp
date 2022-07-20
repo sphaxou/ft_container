@@ -6,7 +6,7 @@
 /*   By: vgallois <vgallois@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 22:17:09 by vgallois          #+#    #+#             */
-/*   Updated: 2022/07/19 21:34:06 by vgallois         ###   ########.fr       */
+/*   Updated: 2022/07/20 14:35:27 by vgallois         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -360,6 +360,13 @@ class vector{
 			std::swap(this->_capacity, x._capacity);
 			std::swap(this->_alloc, x._alloc);
 			return ;
+		}
+
+//Allocator
+
+		allocator_type get_allocator() const
+		{
+			return (this->_alloc)
 		}
 
 		private:
